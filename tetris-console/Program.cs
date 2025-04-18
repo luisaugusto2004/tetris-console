@@ -1,10 +1,16 @@
-﻿namespace tetris_console
+﻿using Entities;
+
+namespace tetris_console
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            try {
+                PieceFactory.Create(Enums.PieceType.I);
+            } catch(ArgumentException e) {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }
