@@ -7,7 +7,7 @@ namespace tetris_console
         static void Main(string[] args)
         {
             try {
-                PieceFactory.Create(Enums.PieceType.I);
+                PieceFactory.Create(Enums.PieceType.Z);
             } catch(ArgumentException e) {
                 Console.WriteLine(e.Message);
             }
