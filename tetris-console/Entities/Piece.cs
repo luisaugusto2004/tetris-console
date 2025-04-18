@@ -1,6 +1,7 @@
 ﻿using Enums;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Entities {
     class Piece {
@@ -14,6 +15,32 @@ namespace Entities {
             this.color = color;
             this.type = type;
             position = new Point(4, 0);
+        }
+
+        public void Rotate() {
+            Point[] aux = new Point[Shape.Length];
+
+            for (int i = 0; i < Shape.Length; i++) {
+                aux[i] = new Point(Shape[i].X - 1, Shape[i].Y - 1);
+            }
+            for (int i = 0; i < Shape.Length; i++) {
+                Shape[i].X = -aux[i].Y + 1;
+                Shape[i].Y = aux[i].X + 1;
+            }
+        }
+
+        public Piece RandomBlock() {
+            Random rand = new Random();
+            PieceType type = (PieceType)rand.Next(0, 7);
+            return PieceFactory.Create(type);
+        }
+
+        public override string ToString() {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < Shape.Length; i++) {
+                sb.AppendLine(Shape[i].ToString());
+            }
+            return sb.ToString();
         }
     }
 }
