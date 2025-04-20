@@ -14,7 +14,7 @@ namespace Entities {
             Shape = shape;
             this.color = color;
             this.type = type;
-            position = new Point(4, 0);
+            position = new Point(3, 0);
         }
 
         public void Rotate() {
@@ -29,18 +29,16 @@ namespace Entities {
             }
         }
 
+        public IEnumerable<Point> GetBlocks() {
+            foreach (var p in Shape) {
+                yield return new Point(position.X + p.X, position.Y + p.Y);
+            }
+        }
+
         public Piece RandomBlock() {
             Random rand = new Random();
             PieceType type = (PieceType)rand.Next(0, 7);
             return PieceFactory.Create(type);
-        }
-
-        public override string ToString() {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < Shape.Length; i++) {
-                sb.AppendLine(Shape[i].ToString());
-            }
-            return sb.ToString();
         }
     }
 }

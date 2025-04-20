@@ -1,4 +1,6 @@
 ﻿using Entities;
+using Enums;
+using Entities;
 
 namespace tetris_console
 {
@@ -6,21 +8,15 @@ namespace tetris_console
     {
         static void Main(string[] args)
         {
+            
             try {
-                
-                Piece p = PieceFactory.Create(Enums.PieceType.I);
-                Console.WriteLine(p);
-                p.Rotate();
-                Console.WriteLine(p);
-                p.Rotate();
-                Console.WriteLine(p);
-                p.Rotate();
-                Console.WriteLine(p);
-                p.Rotate();
-                Console.WriteLine(p);
+                Grid grid = new Grid(10, 20);
+                Piece piece = PieceFactory.Create(PieceType.J);
+                grid.Draw(piece);
             } catch(ArgumentException e) {
                 Console.WriteLine(e.Message);
             }
+            Console.ReadLine();
         }
     }
 }
