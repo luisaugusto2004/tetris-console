@@ -19,6 +19,39 @@ namespace Entities {
             grid = new ConsoleColor[height, width];
         }
 
+        public bool IsValidPosition(Piece piece) {
+            foreach (var p in piece.GetBlocks()) {
+                if (p.X < 0 || p.X >= width || p.Y < 0 || p.Y >= height) {
+                    return false;
+                } else if (grid[p.Y, p.X] != ConsoleColor.Black) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void MoveLeft(Piece piece) {
+            piece.Move(-1, 0);
+            if (!IsValidPosition(piece))
+                piece.Move(1, 0);
+        }
+
+        public void MoveRight(Piece piece) {
+            piece.Move(1, 0);
+            if (!IsValidPosition(piece))
+                piece.Move(-1, 0);
+        }
+
+        public bool MoveDown(Piece piece) {
+            piece.Move(0, 1);
+            if (!IsValidPosition(piece)) {
+                piece.Move(0, -1);
+                return false;
+            }
+            return true;
+
+        }
+
         public void Draw(Piece piece) {
             Console.Clear();
 

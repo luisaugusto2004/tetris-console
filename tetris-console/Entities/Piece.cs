@@ -6,7 +6,7 @@ using System.Text;
 namespace Entities {
     class Piece {
         public Point[] Shape { get; private set; }
-        public Point position { get; private set; }
+        private Point position;
         public ConsoleColor color { get; private set; }
         public PieceType type { get; private set; }
 
@@ -14,7 +14,12 @@ namespace Entities {
             Shape = shape;
             this.color = color;
             this.type = type;
-            position = new Point(3, 0);
+            position = new Point(4, 0);
+        }
+
+        public void Move(int dx, int dy) {
+            position.X += dx;
+            position.Y += dy;
         }
 
         public void Rotate() {
