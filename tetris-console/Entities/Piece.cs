@@ -14,7 +14,7 @@ namespace Entities {
             Shape = shape;
             this.color = color;
             this.type = type;
-            position = new Point(4, 0);
+            position = new Point(3, 0);
         }
 
         public void Move(int dx, int dy) {
