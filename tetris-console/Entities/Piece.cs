@@ -40,7 +40,7 @@ namespace Entities {
             }
         }
 
-        public Piece RandomBlock() {
+        public static Piece RandomBlock() {
             Random rand = new Random();
             PieceType type = (PieceType)rand.Next(0, 7);
             return PieceFactory.Create(type);

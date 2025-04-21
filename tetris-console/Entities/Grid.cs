@@ -9,10 +9,6 @@ namespace Entities {
         private readonly ConsoleColor[,] grid;
         private readonly int gridOffsetX, gridOffsetY;
 
-        public int Width => width;
-        public int Height => height;
-        public ConsoleColor[,] Color => grid;
-
         public Grid(int width, int height) {
             this.width = width;
             this.height = height;
@@ -94,16 +90,22 @@ namespace Entities {
                     Console.ForegroundColor = ConsoleColor.Green;
 
                     if (x == -1)
-                        Console.WriteLine("<!");
+                        Console.Write("<!");
                     else if (x == width)
                         Console.WriteLine("!>");
                     else
                         Console.Write(grid[y, x] == ConsoleColor.Black ? "." : "[]");
                 }
-
             }
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition(gridOffsetX - 2, Console.CursorTop);
+            Console.Write("<!");
+            for (int i = 0; i < width; i++) {
+                Console.Write("==");
+            }
+            Console.WriteLine("!>");
+
             DrawPiece(piece);
-            Console.ResetColor();
         }
 
         public void DrawPiece(Piece piece) {

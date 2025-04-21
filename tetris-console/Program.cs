@@ -7,17 +7,9 @@ namespace tetris_console {
         static void Main(string[] args) {
 
             try {
-                Grid grid = new Grid(10, 20);
-                Piece piece = PieceFactory.Create(PieceType.Z);
-                for (int x = 0; x < grid.Width; x++) {
-                    grid.Color[18, x] = ConsoleColor.Blue;
-                    grid.Color[19, x] = ConsoleColor.Red;
-                }                
-                grid.Draw(piece);
-                Console.ReadLine();
-                grid.ClearLine();
-                grid.Draw(piece);
-
+                Console.CursorVisible = false;
+                Game game = new Game();
+                game.Start();
             } catch (ArgumentException e) {
                 Console.WriteLine(e.Message);
             }

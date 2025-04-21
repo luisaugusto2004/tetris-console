@@ -6,9 +6,38 @@ namespace Entities {
         private Piece current;
         private Grid grid;
 
+        private int OffsetX;
+        private int OffsetY;
+
         public Game() {
             grid = new Grid(10, 20);
-            current = current.RandomBlock();
+            current = Piece.RandomBlock();
+            OffsetX = Console.WindowWidth / 2;
+            OffsetY = Console.WindowHeight / 2;
+        }
+
+
+        public void Start() {
+
+            while (true) {
+                grid.Draw(current);
+
+                Thread.Sleep(200);
+
+                if (!grid.MoveDown(current)) {
+                    grid.Place(current);
+                    grid.ClearLine();
+                    current = Piece.RandomBlock();
+                }
+                if (!grid.IsValidPosition(current)) {
+                    Console.Clear();
+                    Console.SetCursorPosition(OffsetX, OffsetY);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Game Over!");
+                    return;
+                }
+                InputHandler();
+            }
         }
 
         public void InputHandler() {
