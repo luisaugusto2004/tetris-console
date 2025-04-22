@@ -4,16 +4,22 @@ using System.Threading;
 namespace Entities {
     class Game {
         private Piece current;
+        public Queue<Piece> NextOnes { get; private set; } = new Queue<Piece>(); 
         private Grid grid;
 
         private int OffsetX;
         private int OffsetY;
 
         public Game() {
-            grid = new Grid(10, 20);
+            grid = new Grid(10, 20, this);
             current = Piece.RandomBlock();
             OffsetX = Console.WindowWidth / 2;
             OffsetY = Console.WindowHeight / 2;
+
+            for (int i = 0; i < 5; i++) {
+                NextOnes.Enqueue(Piece.RandomBlock());
+            }
+
         }
 
 
@@ -27,7 +33,8 @@ namespace Entities {
                 if (!grid.MoveDown(current)) {
                     grid.Place(current);
                     grid.ClearLine();
-                    current = Piece.RandomBlock();
+                    current = NextOnes.Dequeue(); 
+                    NextOnes.Enqueue(Piece.RandomBlock()); 
                 }
                 if (!grid.IsValidPosition(current)) {
                     Console.Clear();

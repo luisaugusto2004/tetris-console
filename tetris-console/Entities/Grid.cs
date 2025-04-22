@@ -9,7 +9,9 @@ namespace Entities {
         private readonly ConsoleColor[,] grid;
         private readonly int gridOffsetX, gridOffsetY;
 
-        public Grid(int width, int height) {
+        private Game game;
+
+        public Grid(int width, int height, Game game) {
             this.width = width;
             this.height = height;
 
@@ -17,6 +19,7 @@ namespace Entities {
             gridOffsetY = (Console.WindowHeight - height) / 2;
 
             grid = new ConsoleColor[height, width];
+            this.game = game;
         }
 
         public bool IsValidPosition(Piece piece) {
@@ -83,6 +86,7 @@ namespace Entities {
 
         public void Draw(Piece piece) {
             Console.Clear();
+            DrawNext(game.NextOnes);
 
             for (int y = 0; y < height; y++) {
                 for (int x = -1; x <= width; x++) {
@@ -116,6 +120,28 @@ namespace Entities {
                     Console.Write("[]");
                 }
             }
+        }
+
+        public void DrawNext(Queue<Piece> nextOnes) {
+            int nextX = gridOffsetX - 15;
+            int nextY = gridOffsetY + 2;
+            Console.SetCursorPosition(nextX, nextY - 1);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Próximas: ");
+
+            nextX = gridOffsetX - 20;
+            nextY = gridOffsetY + 3;
+
+            foreach (var p in nextOnes) {
+                foreach (var i in p.GetBlocks()) {
+                    Console.SetCursorPosition(nextX + i.X * 2, nextY + i.Y);
+                    Console.ForegroundColor = p.color;
+                    Console.Write("[]");
+                }
+                nextY += 3;
+            }
+
+            Console.ResetColor();
         }
     }
 }
