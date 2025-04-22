@@ -7,13 +7,13 @@ namespace tetris_console {
         static void Main(string[] args) {
 
             try {
+                Console.Title = "Tetris";
                 Console.CursorVisible = false;
                 Game game = new Game();
                 game.Start();
             } catch (ArgumentException e) {
                 Console.WriteLine(e.Message);
             }
-            Console.ReadLine();
         }
     }
 }

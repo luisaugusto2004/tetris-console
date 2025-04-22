@@ -41,7 +41,20 @@ namespace Entities {
                     Console.SetCursorPosition(OffsetX, OffsetY);
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Game Over!");
-                    return;
+                    Console.SetCursorPosition(OffsetX - 18, OffsetY + 1);
+                    Console.WriteLine("Pressione R para reiniciar ou ESC para sair.");
+                    while (true) {
+                        ConsoleKey key = Console.ReadKey(true).Key;
+                        if (key == ConsoleKey.R) {
+                            Reset();
+                            break;
+                        } 
+                        if(key == ConsoleKey.Escape) {
+                            Environment.Exit(0);
+                        }
+
+                    }
+                    
                 }
                 InputHandler();
             }
@@ -69,8 +82,25 @@ namespace Entities {
                             current.Rotate();
                         }
                         break;
+                    case ConsoleKey.R:
+                        Reset();
+                        break;
+                    case ConsoleKey.Escape:
+                        Environment.Exit(0);
+                        break;
                 }
             }
+        }
+
+        public void Reset() {
+            Console.Clear();
+            grid = new Grid(10, 20, this);
+            current = Piece.RandomBlock();
+            NextOnes.Clear();
+            for (int i = 0; i < 5; i++) {
+                NextOnes.Enqueue(Piece.RandomBlock());
+            }
+            Start();
         }
     }
 }
