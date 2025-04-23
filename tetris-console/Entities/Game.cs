@@ -4,13 +4,15 @@ using System.Threading;
 namespace Entities {
     class Game {
         private Piece current;
-        public Queue<Piece> NextOnes { get; private set; } = new Queue<Piece>(); 
+        public Queue<Piece> NextOnes { get; private set; } = new Queue<Piece>();
+        public int Points { get; private set; }
         private Grid grid;
 
         private int OffsetX;
         private int OffsetY;
 
         public Game() {
+            Points = 0;
             grid = new Grid(10, 20, this);
             current = Piece.RandomBlock();
             OffsetX = Console.WindowWidth / 2;
@@ -32,9 +34,11 @@ namespace Entities {
 
                 if (!grid.MoveDown(current)) {
                     grid.Place(current);
+                    int linesCleared = grid.ClearLine();
+                    UpdatePoints(linesCleared);
                     grid.ClearLine();
-                    current = NextOnes.Dequeue(); 
-                    NextOnes.Enqueue(Piece.RandomBlock()); 
+                    current = NextOnes.Dequeue();
+                    NextOnes.Enqueue(Piece.RandomBlock());
                 }
                 if (!grid.IsValidPosition(current)) {
                     Console.Clear();
@@ -48,13 +52,13 @@ namespace Entities {
                         if (key == ConsoleKey.R) {
                             Reset();
                             break;
-                        } 
-                        if(key == ConsoleKey.Escape) {
+                        }
+                        if (key == ConsoleKey.Escape) {
                             Environment.Exit(0);
                         }
 
                     }
-                    
+
                 }
                 InputHandler();
             }
@@ -94,6 +98,7 @@ namespace Entities {
 
         public void Reset() {
             Console.Clear();
+            Points = 0;
             grid = new Grid(10, 20, this);
             current = Piece.RandomBlock();
             NextOnes.Clear();
@@ -101,6 +106,10 @@ namespace Entities {
                 NextOnes.Enqueue(Piece.RandomBlock());
             }
             Start();
+        }
+
+        public int UpdatePoints(int linesCleared) {
+            return Points += (int)Math.Round(350 * Math.Pow(linesCleared, 3));
         }
     }
 }

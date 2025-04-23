@@ -59,7 +59,7 @@ namespace Entities {
                 grid[p.Y, p.X] = piece.color;
         }
 
-        public void ClearLine() {
+        public int ClearLine() {
             int linesCleared = 0;
 
             for (int y = height - 1; y >= 0 && linesCleared < 4; y--) {
@@ -82,11 +82,13 @@ namespace Entities {
                     linesCleared++;
                 }
             }
+            return linesCleared;
         }
 
         public void Draw(Piece piece) {
             Console.Clear();
             DrawNext(game.NextOnes);
+            DrawPoints(game.Points);
 
             for (int y = 0; y < height; y++) {
                 for (int x = -1; x <= width; x++) {
@@ -124,13 +126,13 @@ namespace Entities {
 
         public void DrawNext(Queue<Piece> nextOnes) {
             int nextX = gridOffsetX - 15;
-            int nextY = gridOffsetY + 2;
-            Console.SetCursorPosition(nextX, nextY - 1);
+            int nextY = gridOffsetY;
+            Console.SetCursorPosition(nextX, nextY);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Próximas: ");
 
             nextX = gridOffsetX - 20;
-            nextY = gridOffsetY + 3;
+            nextY = gridOffsetY + 2;
 
             foreach (var p in nextOnes) {
                 foreach (var i in p.GetBlocks()) {
@@ -141,6 +143,16 @@ namespace Entities {
                 nextY += 3;
             }
 
+            Console.ResetColor();
+        }
+
+        public void DrawPoints(int points) {
+            int PointX = gridOffsetX + 25;
+            int PointY = gridOffsetY;
+
+            Console.SetCursorPosition(PointX, PointY);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Points: {0}", points);
             Console.ResetColor();
         }
     }
